@@ -3,8 +3,8 @@ import { z } from "zod";
 import prisma from "@/prisma/client";
 
 const createIssueSchema = z.object({
-  title: z.string().min(1).max(255),
-  description: z.string().min(2).max(500),
+  title: z.string().min(1, "Title is Required").max(255),
+  description: z.string().min(2, "description is required").max(500),
 });
 
 export async function POST(request: NextRequest) {
@@ -23,5 +23,3 @@ export async function POST(request: NextRequest) {
   });
   return NextResponse.json(newIssue, { status: 201 });
 }
-
-//hi
