@@ -11,11 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/app/validationSchemas";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
-
-// interface IssueForm {
-//   title: string;
-//   description: string;
-// }
+import Loader from "@/app/components/Loader";
 
 type IssueForm = z.infer<typeof createIssueSchema>; //integrated react hook form with zod
 
@@ -27,15 +23,19 @@ const NewIssuePage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<IssueForm>({
+    //issue-form hook
     resolver: zodResolver(createIssueSchema),
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: IssueForm) => {
     try {
+      setLoading(true);
       await axios.post("/api/issues", data); // returns a promise, send data to the api
       router.push("/issues"); //then send the user to the issues page
     } catch (error) {
+      setLoading(false);
       console.log("Error:", error);
       setError("An unexpected error occurred");
     }
@@ -65,7 +65,8 @@ const NewIssuePage = () => {
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button type="submit">Submit New Issue</Button>
+        <Button>Submit New Issue </Button>
+        {loading && <Loader />}
       </form>
     </div>
   );
