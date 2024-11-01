@@ -2,14 +2,8 @@ import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Theme } from "@radix-ui/themes";
-import { Inter } from "next/font/google";
 import "./theme-config.css";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable}antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Theme
           accentColor="ruby"
